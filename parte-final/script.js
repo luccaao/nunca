@@ -3,7 +3,7 @@ class JogoNunca {
         // Inicialização dos atributos da classe
         this.numJogadores = numJogadores; // Número total de jogadores
         this.selectedPlayer = selectedPlayer; // Índice do jogador selecionado para começar
-        this.currentPlayer = 0; // Índice do jogador atual
+        this.currentPlayer = selectedPlayer; // Índice do jogador atual
         this.unidades = Array(numJogadores).fill(0); // Array para armazenar as unidades de cada jogador
         this.barras = Array(numJogadores).fill(0); // Array para armazenar as barras de cada jogador
         this.placas = Array(numJogadores).fill(0); // Array para armazenar as placas de cada jogador
@@ -22,18 +22,14 @@ class JogoNunca {
         const numero = Math.floor(Math.random() * 10);
         // Exibe o número gerado na interface
         this.numeroDiv.innerText = numero;
-        // Obtém o índice do jogador atual
-        const jogadorAtual = this.currentPlayer;
-
+        
         // Adiciona o número gerado às unidades do jogador atual
-        if (jogadorAtual < this.unidades.length) {
-            this.unidades[jogadorAtual] += numero;
-        }
-
+        this.unidades[this.currentPlayer] += numero;
+        
         // Atualiza as unidades exibidas na interface
         this.atualizarUnidades();
         // Verifica se é necessário trocar de jogador
-        this.verificarTroca(jogadorAtual);
+        this.verificarTroca(this.currentPlayer);
         // Atualiza o índice do jogador atual para o próximo jogador
         this.currentPlayer = (this.currentPlayer + 1) % this.numJogadores;
     }
@@ -104,7 +100,8 @@ document.getElementById('btnIniciarJogo').addEventListener('click', () => {
 
         // Exibe a seção de escolha do jogador que começa e esconde o questionário de inicialização
         questionario.style.display = "none";
-        startSection.style.display = "block";
+        startSection.style.display = "flex";
+        
 
         // Adiciona um event listener para o botão de começar o jogo
         document.getElementById('btnStartGame').addEventListener('click', () => {
@@ -112,7 +109,9 @@ document.getElementById('btnIniciarJogo').addEventListener('click', () => {
             const selectedPlayer = parseInt(startingPlayerSelect.value) - 1; // Subtrai 1 para corresponder ao índice do array
             // Verifica se o jogador selecionado é válido
             if (selectedPlayer >= 0 && selectedPlayer < numJogadores) {
+                
                 // Esconde a seção de escolha do jogador e o questionário de inicialização
+                
                 questionario.style.display = "none";
                 startSection.style.display = "none";
                 // Inicia o jogo com o jogador selecionado
